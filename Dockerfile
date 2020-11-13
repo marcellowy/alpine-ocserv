@@ -1,20 +1,22 @@
 From alpine:latest
-MAINTAINER soniclidi
+MAINTAINER Ryo
 
 # china timezone
 ENV TZ=Asia/Shanghai
 RUN echo $TZ > /etc/timezone
 
-RUN echo "@edge http://dl-4.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories
-RUN echo "@testing http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
-RUN apk update && apk add musl-dev iptables gnutls-dev readline-dev libnl3-dev lz4-dev libseccomp-dev@testing
+RUN echo "@edge http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
+	&& echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+	&& sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories 
+
+RUN apk update && apk add musl-dev iptables gnutls-dev readline-dev libnl3-dev lz4-dev libseccomp-dev@testing protobuf-c-dev libev-dev
 
 RUN buildDeps="xz openssl gcc autoconf make linux-headers"; \
 	set -x \
 	&& apk add $buildDeps \
 	&& cd \
-	&& wget http://www.infradead.org/ocserv/download.html -O download.html \
-	&& OC_VERSION=`sed -n 's/^.*version is <b>\(.*\)$/\1/p' download.html` \
+	&& wget https://ocserv.gitlab.io/www/download.html -O download.html \
+	&& OC_VERSION=`cat download.html | grep -o '[0-9]*\.[0-9]*\.[0-9]*'` \
 	&& OC_FILE="ocserv-$OC_VERSION" \
 	&& rm -fr download.html \
 	&& wget ftp://ftp.infradead.org/pub/ocserv/$OC_FILE.tar.xz \
