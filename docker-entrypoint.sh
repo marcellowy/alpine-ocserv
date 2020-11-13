@@ -52,7 +52,7 @@ if [ ! -f /etc/ocserv/server-key.pem ] || [ ! -f /etc/ocserv/server-cert.pem ]; 
 	certtool --generate-certificate --load-privkey server-key.pem --load-ca-certificate ca.pem --load-ca-privkey ca-key.pem --template server.tmpl --outfile server-cert.pem
 
 	# Create a test user
-	if [ -z "$NO_TEST_USER" ] && [ ! -f /etc/ocserv/ocpasswd ]; then
+	if [ -z "$TEST_USER" ] && [ ! -f /etc/ocserv/ocpasswd ]; then
 		echo "Create test user 'test' with password 'test'"
 		echo 'test:*:$5$DktJBFKobxCFd7wN$sn.bVw8ytyAaNamO.CvgBvkzDiFR6DaHdUzcif52KK7' > /etc/ocserv/ocpasswd
 	fi
@@ -61,14 +61,16 @@ fi
 # Open ipv4 ip forward
 sysctl -w net.ipv4.ip_forward=1
 
+# Enable TUN device
+if [ ! -e /dev/net/tun ]; then
+	mkdir -p /dev/net
+	mknod /dev/net/tun c 10 200
+	chmod 600 /dev/net/tun
+fi
+
 # Enable NAT forwarding
 iptables -t nat -A POSTROUTING -j MASQUERADE
 iptables -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
-
-# Enable TUN device
-mkdir -p /dev/net
-mknod /dev/net/tun c 10 200
-chmod 600 /dev/net/tun
 
 # Run OpennConnect Server
 exec "$@"
