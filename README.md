@@ -1,7 +1,7 @@
 # alpine-ocserv
 Ocserv VPN docker image based on Alpine Linux
 
-Tiny small, only 60MB!!!
+Forked from https://github.com/soniclidi/alpine-ocserv
 
 Some codes from https://github.com/TommyLau/docker-ocserv
 
