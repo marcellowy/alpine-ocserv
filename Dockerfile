@@ -9,7 +9,7 @@ RUN echo "@edge http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repo
 	&& echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
 	&& sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories 
 
-RUN apk update && apk add musl-dev iptables gnutls-dev readline-dev libnl3-dev lz4-dev libseccomp-dev@testing protobuf-c-dev libev-dev
+RUN apk update && apk add gnutls-utils musl-dev iptables gnutls-dev readline-dev libnl3-dev lz4-dev libseccomp-dev@testing protobuf-c-dev libev-dev
 
 RUN buildDeps="xz openssl gcc autoconf make linux-headers"; \
 	set -x \
