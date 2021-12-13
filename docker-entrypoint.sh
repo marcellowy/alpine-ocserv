@@ -1,6 +1,6 @@
 #!/bin/ash
 
-if  [ ! -z "${GEN_CERT}" ] && [ ! -f /etc/ocserv/server-key.pem ] || [ ! -f /etc/ocserv/server-cert.pem ]; then
+if [ ! -f /etc/ocserv/server-key.pem ] || [ ! -f /etc/ocserv/server-cert.pem ] && [ ! -z "${GEN_CERT}" ] ; then
 	# Check environment variables
 	if [ -z "$CA_CN" ]; then
 		CA_CN="VPN CA"
@@ -52,7 +52,7 @@ if  [ ! -z "${GEN_CERT}" ] && [ ! -f /etc/ocserv/server-key.pem ] || [ ! -f /etc
 	certtool --generate-certificate --load-privkey server-key.pem --load-ca-certificate ca.pem --load-ca-privkey ca-key.pem --template server.tmpl --outfile server-cert.pem
 
 	# Create a test user
-	if [ ! -z "${TEST_USER}" ] && [ ! -f /etc/ocserv/ocpasswd ]; then
+	if [ ! -f /etc/ocserv/ocpasswd ]; then
 		echo "Create test user 'test' with password 'test'"
 		echo 'test:*:$5$DktJBFKobxCFd7wN$sn.bVw8ytyAaNamO.CvgBvkzDiFR6DaHdUzcif52KK7' > /etc/ocserv/ocpasswd
 	fi
@@ -74,4 +74,3 @@ iptables -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
 
 # Run OpennConnect Server
 exec "$@"
-
