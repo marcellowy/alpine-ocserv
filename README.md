@@ -17,9 +17,6 @@ docker build --rm -t alpine-ocserv:0.0.1 .
 docker run --name ocserv --privileged -p 443:443 -d alpine-ocserv:0.0.1
 ```
 
-
-this will run an instance with a default user "test" and password "test".
-
 add user: docker exec -ti ocserv ocpasswd -c /etc/ocserv/ocpasswd newuser
 
 delete user: docker exec -ti ocserv ocpasswd -c /etc/ocserv/ocpasswd -d test
