@@ -7,8 +7,16 @@ Some codes from https://github.com/TommyLau/docker-ocserv
 
 no-route list from https://github.com/CNMan/ocserv-cn-no-route
 
+# useage
 
-useage: docker run --name ocserv --privileged -p 443:443 -p 443:443/udp -d soniclidi/alpine-ocserv
+```
+# build
+docker build --rm -t alpine-ocserv:0.0.1 .
+
+# run
+docker run --name ocserv --privileged -p 443:443 -d alpine-ocserv:0.0.1
+```
+
 
 this will run an instance with a default user "test" and password "test".
 
