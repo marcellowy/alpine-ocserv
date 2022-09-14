@@ -19,7 +19,7 @@ RUN buildDeps="xz openssl gcc autoconf make linux-headers"; \
 	&& OC_VERSION=`cat download.html | grep -o '[0-9]*\.[0-9]*\.[0-9]*'` \
 	&& OC_FILE="ocserv-$OC_VERSION" \
 	&& rm -fr download.html \
-	&& wget ftp://ftp.infradead.org/pub/ocserv/$OC_FILE.tar.xz \
+	&& wget https://www.infradead.org/ocserv/download/$OC_FILE.tar.xz \
 	&& tar xJf $OC_FILE.tar.xz \
 	&& rm -fr $OC_FILE.tar.xz \
 	&& cd $OC_FILE \
