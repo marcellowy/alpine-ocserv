@@ -39,7 +39,7 @@ networks:
 ```
 
 
-Note: copy "/etc/ocserv" to your server and don't forgot modify server-key.pem and server server-cert.pem
+Note: copy "/etc/ocserv" to your server path and don't forgot modify server-key.pem and server server-cert.pem
 
 add new user: docker exec -ti ocserv ocpasswd -c /etc/ocserv/ocpasswd newuser
 
